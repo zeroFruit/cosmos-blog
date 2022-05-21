@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) Comments(goCtx context.Context, req *types.QueryCommentsRequest) (*types.QueryCommentsResponse, error) {
+func (k Keeper) Comments(goCtx context.Context, req *types.CommentsRequest) (*types.CommentsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -39,7 +39,7 @@ func (k Keeper) Comments(goCtx context.Context, req *types.QueryCommentsRequest)
 			return err
 		}
 
-		if comment.PostID == postID {
+		if comment.PostId == postID {
 			comments = append(comments, &comment)
 		}
 
@@ -52,5 +52,5 @@ func (k Keeper) Comments(goCtx context.Context, req *types.QueryCommentsRequest)
 	}
 
 	// Return a struct containing a list of posts and pagination info
-	return &types.QueryCommentsResponse{Post: &post, Comment: comments, Pagination: pageRes}, nil
+	return &types.CommentsResponse{Post: &post, Comment: comments, Pagination: pageRes}, nil
 }

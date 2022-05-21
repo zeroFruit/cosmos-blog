@@ -11,18 +11,18 @@ import (
 func TestMsgCreateComment_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgCreateComment
+		msg  CreateCommentRequest
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgCreateComment{
+			msg: CreateCommentRequest{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgCreateComment{
+			msg: CreateCommentRequest{
 				Creator: sample.AccAddress(),
 			},
 		},

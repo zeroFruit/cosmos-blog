@@ -5,27 +5,27 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgDeleteComment = "delete_comment"
+const TypeDeleteCommentRequest = "delete_comment"
 
-var _ sdk.Msg = &MsgDeleteComment{}
+var _ sdk.Msg = &DeleteCommentRequest{}
 
-func NewMsgDeleteComment(creator string, commentID uint64, postID uint64) *MsgDeleteComment {
-	return &MsgDeleteComment{
+func NewDeleteCommentRequest(creator string, commentID uint64, postID uint64) *DeleteCommentRequest {
+	return &DeleteCommentRequest{
 		Creator:   creator,
-		CommentID: commentID,
-		PostID:    postID,
+		CommentId: commentID,
+		PostId:    postID,
 	}
 }
 
-func (msg *MsgDeleteComment) Route() string {
+func (msg *DeleteCommentRequest) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgDeleteComment) Type() string {
-	return TypeMsgDeleteComment
+func (msg *DeleteCommentRequest) Type() string {
+	return TypeDeleteCommentRequest
 }
 
-func (msg *MsgDeleteComment) GetSigners() []sdk.AccAddress {
+func (msg *DeleteCommentRequest) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -33,12 +33,12 @@ func (msg *MsgDeleteComment) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgDeleteComment) GetSignBytes() []byte {
+func (msg *DeleteCommentRequest) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgDeleteComment) ValidateBasic() error {
+func (msg *DeleteCommentRequest) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

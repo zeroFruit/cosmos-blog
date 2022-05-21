@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
@@ -11,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) Posts(goCtx context.Context, req *types.QueryPostsRequest) (*types.QueryPostsResponse, error) {
+func (k Keeper) Posts(goCtx context.Context, req *types.PostsRequest) (*types.PostsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -36,7 +37,7 @@ func (k Keeper) Posts(goCtx context.Context, req *types.QueryPostsRequest) (*typ
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryPostsResponse{
+	return &types.PostsResponse{
 		Post:       posts,
 		Pagination: pageRes,
 	}, nil

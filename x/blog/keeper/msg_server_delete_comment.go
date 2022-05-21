@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
@@ -10,15 +11,15 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) DeleteComment(goCtx context.Context, msg *types.MsgDeleteComment) (*types.MsgDeleteCommentResponse, error) {
+func (k msgServer) DeleteComment(goCtx context.Context, msg *types.DeleteCommentRequest) (*types.DeleteCommentResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	comment, ok := k.GetComment(ctx, msg.Id)
 	if !ok {
 		return nil, sdkerrors.Wrapf(types.ErrID, "Comment doesnt exist")
 	}
-	if msg.PostID != comment.PostID {
-		return nil, sdkerrors.Wrapf(types.ErrID, "Post Blog Id does not exist for which comment with Blog Id %d was made", msg.PostID)
+	if msg.PostId != comment.PostId {
+		return nil, sdkerrors.Wrapf(types.ErrID, "Post Blog Id does not exist for which comment with Blog Id %d was made", msg.PostId)
 	}
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CommentKey))
@@ -26,5 +27,5 @@ func (k msgServer) DeleteComment(goCtx context.Context, msg *types.MsgDeleteComm
 	binary.BigEndian.PutUint64(bz, comment.Id)
 	store.Delete(bz)
 
-	return &types.MsgDeleteCommentResponse{}, nil
+	return &types.DeleteCommentResponse{}, nil
 }

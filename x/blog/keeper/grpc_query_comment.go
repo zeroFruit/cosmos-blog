@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) CommentAll(c context.Context, req *types.QueryAllCommentRequest) (*types.QueryAllCommentResponse, error) {
+func (k Keeper) CommentAll(c context.Context, req *types.CommentAllRequest) (*types.CommentAllResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -37,10 +37,10 @@ func (k Keeper) CommentAll(c context.Context, req *types.QueryAllCommentRequest)
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllCommentResponse{Comment: comments, Pagination: pageRes}, nil
+	return &types.CommentAllResponse{Comment: comments, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Comment(c context.Context, req *types.QueryGetCommentRequest) (*types.QueryGetCommentResponse, error) {
+func (k Keeper) Comment(c context.Context, req *types.CommentRequest) (*types.CommentResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -51,5 +51,5 @@ func (k Keeper) Comment(c context.Context, req *types.QueryGetCommentRequest) (*
 		return nil, sdkerrors.ErrKeyNotFound
 	}
 
-	return &types.QueryGetCommentResponse{Comment: comment}, nil
+	return &types.CommentResponse{Comment: comment}, nil
 }

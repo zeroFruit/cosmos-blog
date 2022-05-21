@@ -2,16 +2,17 @@ package keeper
 
 import (
 	"context"
+
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	"github.com/cosmonaut/blog/x/blog/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) CreateComment(goCtx context.Context, msg *types.MsgCreateComment) (*types.MsgCreateCommentResponse, error) {
+func (k msgServer) CreateComment(goCtx context.Context, msg *types.CreateCommentRequest) (*types.CreateCommentResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	post := k.GetPost(ctx, msg.PostID)
+	post := k.GetPost(ctx, msg.PostId)
 	postId := post.Id
 
 	comment := types.Comment{
@@ -19,12 +20,12 @@ func (k msgServer) CreateComment(goCtx context.Context, msg *types.MsgCreateComm
 		Id:        msg.Id,
 		Body:      msg.Body,
 		Title:     msg.Title,
-		PostID:    msg.PostID,
+		PostId:    msg.PostId,
 		CreatedAt: ctx.BlockHeight(),
 	}
 
-	if msg.PostID != postId {
-		return nil, sdkerrors.Wrapf(types.ErrID, "Post Blog Id does not exist for which comment with Blog Id %d was made", msg.PostID)
+	if msg.PostId != postId {
+		return nil, sdkerrors.Wrapf(types.ErrID, "Post Blog Id does not exist for which comment with Blog Id %d was made", msg.PostId)
 	}
 
 	if comment.CreatedAt > post.CreatedAt+100 {
@@ -32,5 +33,5 @@ func (k msgServer) CreateComment(goCtx context.Context, msg *types.MsgCreateComm
 	}
 
 	id := k.AppendComment(ctx, comment)
-	return &types.MsgCreateCommentResponse{Id: id}, nil
+	return &types.CreateCommentResponse{Id: id}, nil
 }

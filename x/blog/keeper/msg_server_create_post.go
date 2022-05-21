@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (*types.MsgCreatePostResponse, error) {
+func (k msgServer) CreatePost(goCtx context.Context, msg *types.CreatePostRequest) (*types.CreatePostResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	post := types.Post{
@@ -20,7 +20,7 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 
 	id := k.AppendPost(ctx, post)
 
-	return &types.MsgCreatePostResponse{
+	return &types.CreatePostResponse{
 		Id: id,
 	}, nil
 }
