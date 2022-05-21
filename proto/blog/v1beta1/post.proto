@@ -1,5 +1,7 @@
 syntax = "proto3";
-package cosmonaut.blog.blog;
+
+package blog.v1beta1;
+
 option go_package = "github.com/cosmonaut/blog/x/blog/types";
 
 message Post {
@@ -7,5 +9,5 @@ message Post {
   uint64 id = 2;
   string title = 3;
   string body = 4;
-  int64 createdAt = 5;
+  int64 created_at = 5;
 }

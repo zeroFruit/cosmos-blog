@@ -1,39 +1,39 @@
 syntax = "proto3";
-package cosmonaut.blog.blog;
+package blog.v1beta1;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "blog/params.proto";
-import "blog/post.proto";
-import "blog/comment.proto";
+import "blog/v1beta1/params.proto";
+import "blog/v1beta1/post.proto";
+import "blog/v1beta1/comment.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/cosmonaut/blog/x/blog/types";
 
 // Query defines the gRPC querier service.
-service Query {
+service QueryService {
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params(ParamsRequest) returns (ParamsResponse) {
     option (google.api.http).get = "/cosmonaut/blog/blog/params";
   }
   // Queries a list of Posts items.
-	rpc Posts(QueryPostsRequest) returns (QueryPostsResponse) {
+	rpc Posts(PostsRequest) returns (PostsResponse) {
 		option (google.api.http).get = "/cosmonaut/blog/blog/posts";
 	}
 
 // Queries a Comment by id.
-	rpc Comment(QueryGetCommentRequest) returns (QueryGetCommentResponse) {
+	rpc Comment(CommentRequest) returns (CommentResponse) {
 		option (google.api.http).get = "/cosmonaut/blog/blog/comment/{id}";
 	}
 
 	// Queries a list of Comment items.
-	rpc CommentAll(QueryAllCommentRequest) returns (QueryAllCommentResponse) {
+	rpc CommentAll(CommentAllRequest) returns (CommentAllResponse) {
 		option (google.api.http).get = "/cosmonaut/blog/blog/comment";
 	}
 
 // Queries a list of Comments items.
-	rpc Comments(QueryCommentsRequest) returns (QueryCommentsResponse) {
+	rpc Comments(CommentsRequest) returns (CommentsResponse) {
 		option (google.api.http).get = "/cosmonaut/blog/blog/comments/{id}";
 	}
 
@@ -41,48 +41,48 @@ service Query {
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
-message QueryParamsRequest {}
+message ParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
-message QueryParamsResponse {
+message ParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryPostsRequest {
+message PostsRequest {
   cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-message QueryPostsResponse {
-  repeated Post Post = 1;
+message PostsResponse {
+  repeated Post post = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryGetCommentRequest {
+message CommentRequest {
 	uint64 id = 1;
 }
 
-message QueryGetCommentResponse {
-	Comment Comment = 1 [(gogoproto.nullable) = false];
+message CommentResponse {
+	Comment comment = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryAllCommentRequest {
+message CommentAllRequest {
 	cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-message QueryAllCommentResponse {
-	repeated Comment Comment = 1 [(gogoproto.nullable) = false];
+message CommentAllResponse {
+	repeated Comment comment = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryCommentsRequest {
+message CommentsRequest {
   uint64 id = 1;
 	cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryCommentsResponse {
-  Post Post = 1;
-	repeated Comment Comment = 2;
+message CommentsResponse {
+  Post post = 1;
+	repeated Comment comment = 2;
 	cosmos.base.query.v1beta1.PageResponse pagination = 3;
 }
 

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmonaut.blog.blog;
+package blog.v1beta1;
 
 option go_package = "github.com/cosmonaut/blog/x/blog/types";
 
@@ -8,7 +8,7 @@ message Comment {
   string creator = 2; 
   string title = 3; 
   string body = 4; 
-  uint64 postID = 5; 
-  int64 createdAt = 6;
+  uint64 post_id = 5;
+  int64 created_at = 6;
   
 }

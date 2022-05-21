@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmonaut.blog.blog;
+package blog.v1beta1;
 
 import "gogoproto/gogo.proto";
 
